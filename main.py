@@ -11,8 +11,8 @@ ROT_CTR = 0
 INCREASE = True
 
 # Set up the drawing window
-screen = pygame.display.set_mode([1200, 800])
-#screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+#screen = pygame.display.set_mode([800, 600])
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 # Run until the user asks to quit
 running = True
@@ -50,6 +50,7 @@ while running:
     Pump.drawBody(screen)
 
     UI.drawRotateAssembly(screen, 1000, 400, .1, ROT_CTR)
+    UI.drawUIPanel(screen, 85, 540, .23)
 
     # Flip the display
     pygame.display.flip()
