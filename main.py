@@ -3,27 +3,22 @@ from button import *
 from ui import UI as ui
 
 pygame.init()
-Pump = Body(375, 125, .27)
-UI = ui()
+Pump = Body(600, 200, .35)
+UI = ui(150, 900, scale=.25)
 
-ANIM_CTR = 1
-ROT_CTR = 0
-INCREASE = True
+
 
 # Set up the drawing window
 #screen = pygame.display.set_mode([800, 600])
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
+
+# Set up state handler
+state = [False, False, False, False, False, False]
+
 # Run until the user asks to quit
 running = True
 while running:
-
-    if ROT_CTR == 3600:
-        ROT_CTR = 0
-    else:
-        ROT_CTR += 1
-
-
     # Did the user click the window close button?
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -37,8 +32,27 @@ while running:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             for btn in Pump.Buttons:
-                if isButtonPressed(btn):
+                if btn.isClicked():
                     print("Button Pressed")
+
+            for ckbox in UI.checkboxes:
+                if ckbox.isClicked():
+                    print("Checkbox was clicked")
+                    ckbox.state = not ckbox.state
+
+                    # TODO Handlers for each checkbox
+                        # TODO Remove Cartridge with state change
+                        # ---> Start an animation counter
+                        # TODO Remove Tube Connect with state change
+                        # ---> Start another anim counter
+                        # TODO state change for Food Empty
+                        # ---> Register a ui event
+                        # TODO state change for Child Lock
+                        # ---> Register a ui event
+                        # TODO state change for Clog
+                        # ---> Register a ui event
+
+
 
     # Fill the background with white
     # A6EBF7
@@ -49,8 +63,7 @@ while running:
     Pump.drawCapThreadRelative(screen, 0)
     Pump.drawBody(screen)
 
-    UI.drawRotateAssembly(screen, 1000, 400, .1, ROT_CTR)
-    UI.drawUIPanel(screen, 85, 540, .23)
+    UI.drawUIPanel(screen)
 
     # Flip the display
     pygame.display.flip()

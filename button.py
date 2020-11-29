@@ -6,12 +6,6 @@ BTN_OUTLINE_WIDTH = 2
 BTN_BG = (200, 200, 200)
 BTN_FG = (51, 51, 51)
 
-def isButtonPressed(Button):
-    if Button.isClicked():
-        return True
-    else:
-        return False
-
 class Coordinate(object):
     def __init__(self, x, y):
         self.x = x
