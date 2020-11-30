@@ -1,4 +1,5 @@
 from pumpbody import Pump as Body
+from menuFSM import MenuFSM
 from button import *
 from ui import UI as ui
 
@@ -7,14 +8,13 @@ Pump = Body(600, 200, .35)
 UI = ui(150, 900, scale=.25)
 
 
-
 # Set up the drawing window
 #screen = pygame.display.set_mode([800, 600])
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 
-# Set up state handler
-state = [False, False, False, False, False, False]
+MenuHandler = MenuFSM(Pump, UI, screen)
+
 
 # Run until the user asks to quit
 running = True
@@ -31,26 +31,21 @@ while running:
 
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            for btn in Pump.Buttons:
+            for index, btn in enumerate(Pump.Buttons):
                 if btn.isClicked():
                     print("Button Pressed")
+                    MenuHandler.buttonCallback(index)
 
-            for ckbox in UI.checkboxes:
+
+            for index, ckbox in enumerate(UI.checkboxes):
                 if ckbox.isClicked():
                     print("Checkbox was clicked")
                     ckbox.state = not ckbox.state
+                    MenuHandler.checkboxCallback(index, ckbox.state)
 
-                    # TODO Handlers for each checkbox
-                        # TODO Remove Cartridge with state change
-                        # ---> Start an animation counter
-                        # TODO Remove Tube Connect with state change
-                        # ---> Start another anim counter
-                        # TODO state change for Food Empty
-                        # ---> Register a ui event
-                        # TODO state change for Child Lock
-                        # ---> Register a ui event
-                        # TODO state change for Clog
-                        # ---> Register a ui event
+
+
+
 
 
 
@@ -59,11 +54,9 @@ while running:
     graybg = (0xA6, 0xEB, 0xF7)
     screen.fill(graybg)
 
-    Pump.Screen.draw(screen)
-    Pump.drawCapThreadRelative(screen, 0)
-    Pump.drawBody(screen)
+    MenuHandler.executeCurrentState()
 
-    UI.drawUIPanel(screen)
+
 
     # Flip the display
     pygame.display.flip()

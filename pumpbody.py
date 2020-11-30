@@ -5,6 +5,7 @@ from button import *
 
 BODY_SCALE = 0.35
 CAP_SCALE = 0.35
+HOSE_SCALE = 0.35
 THREADS_SCALE = 0.4
 
 SCREEN_X = 235
@@ -14,10 +15,15 @@ SCREEN_SCALE = 2.0
 CAP_X = 815
 CAP_Y = -240
 
+HOSE_X = 1600
+HOSE_Y = 520
+
 THREAD_X = CAP_X - 50
 THREAD_Y = CAP_Y - 55
 
+
 MAX_DISTANCE_CAP_ASY = 500
+MAX_DISTANCE_HOSE_ASY = 10
 
 
 class Pump(object):
@@ -29,11 +35,14 @@ class Pump(object):
         self.body = pygame.image.load("res/body.png")
         self.threads = pygame.image.load("res/threads.png")
         self.cap = pygame.image.load("res/cap_no_threads.png")
+        self.hose = pygame.image.load("res/tubeconnect.png")
 
         # Keep track of the transform of the cartridge and opacity of cap
         # Internally store an interpolation range, user settable
         self.cartridge_transform = 0
         self.cartridge_interp_range = (0, 100)
+        self.hose_transform = 0
+        self.hose_interp_range = (0, 100)
 
         # Keep track of the screen and its transform
         self.Screen = Screen(self.position.x + self.scale * SCREEN_X, self.position.y + self.scale * SCREEN_Y, self.scale * SCREEN_SCALE)
@@ -59,11 +68,21 @@ class Pump(object):
                                                    int(CAP_SCALE * self.scale * self.body.get_height())))
         screen.blit(scaled, (self.position.x + offsetx + self.scale * CAP_X, self.position.y + offsety + self.scale * CAP_Y))
 
+    def drawHose(self, screen, offsetx=0, offsety=0):
+        scaled = pygame.transform.scale(self.hose, (int(HOSE_SCALE * self.scale * self.body.get_width()),
+                                                    int(HOSE_SCALE * self.scale * self.body.get_height())))
+        screen.blit(scaled, (self.position.x + offsetx + self.scale * HOSE_X, self.position.y + offsety + self.scale * HOSE_Y))
+
     def drawCapThreadRelative(self, screen, n=0, interp_range=(0, 100)):
         self.cartridge_interp_range = interp_range
         yoffset = self.scale * (n * MAX_DISTANCE_CAP_ASY) / max(interp_range)
         self.drawCap(screen, 0, -yoffset)
         self.drawThread(screen, 0, -yoffset)
+
+    def drawHoseRelative(self, screen, n=0, interp_range=(0, 100)):
+        self.hose_interp_range = interp_range
+        xoffset = self.scale * (n * MAX_DISTANCE_HOSE_ASY / max(interp_range))
+        self.drawHose(screen,  xoffset, 0)
 
 
 
