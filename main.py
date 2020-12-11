@@ -4,7 +4,7 @@ from button import *
 from ui import UI as ui
 
 pygame.init()
-Pump = Body(600, 200, .35)
+Pump = Body(500, 150, .45)
 UI = ui(150, 900, scale=.25)
 
 
@@ -33,8 +33,7 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             for index, btn in enumerate(Pump.Buttons):
                 if btn.isClicked():
-                    print("Button Pressed")
-                    MenuHandler.buttonCallback(index)
+                    MenuHandler.buttonCallback(index, btn)
 
 
             for index, ckbox in enumerate(UI.checkboxes):

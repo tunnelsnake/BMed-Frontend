@@ -13,12 +13,16 @@ class Screen(object):
         self.height = 320
         self.scale = scale
         self.currentImage = None
+        self.currentPath = None
 
-    def loadAllAssets(self):
-        pass
+    def takeImageOBJ(self, img):
+        self.currentPath = None
+        self.currentImage = img
 
     def loadImage(self, imagePath):
-        self.currentImage = pygame.image.load(imagePath)
+        if imagePath != self.currentPath:
+            self.currentPath = imagePath
+            self.currentImage = pygame.image.load(imagePath)
 
 
     def draw(self, screen):
