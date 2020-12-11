@@ -1,6 +1,4 @@
-# BIOMEDSIM
-
-
+# FlamingoSIM
 A behavioral simulator for IED team project.
 Requires Pygame.
 
